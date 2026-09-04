@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>TransLogística Brasil S.A. — Estudo de Caso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Surface (dark, off-white escuro) */
+    --bg-0: #0e1014;
+    --bg-1: #16181d;
+    --bg-2: #1d2026;
+    --bg-3: #252830;
+    --surface: #1a1d23;
+    --surface-2: #1f2229;
+
+    /* Borders */
+    --border: #2a2e37;
+    --border-strong: #393e4a;
+
+    /* Text */
+    --text: #e8eaed;
+    --text-dim: #9aa0a8;
+    --text-soft: #6c7178;
+
+    /* Brand / accent (âmbar sóbrio) */
+    --accent: #fbbf24;            /* amber-400 */
+    --accent-2: #f59e0b;          /* amber-500 */
+    --accent-dim: rgba(251, 191, 36, 0.10);
+    --accent-glow: rgba(251, 191, 36, 0.18);
+
+    /* Categorias (tons neutros relacionados) */
+    --cat-empresa: #8b95a5;
+    --cat-estrategia: #fbbf24;
+    --cat-ti: #6b8aa8;
+    --cat-sistemas: #a595b8;
+    --cat-processos: #8aa88b;
+    --cat-problemas: #c99595;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-elev: 0 2px 4px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-0);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+  /* ==== TYPOGRAPHY ==== */
+  .serif { font-family: 'Inter', sans-serif; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace; }
+
+  /* ==== HEADER ==== */
+  header {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    background: var(--bg-1);
+  }
+  .header-inner { display: flex; flex-direction: column; gap: 20px; max-width: 880px; margin: 0 auto; align-items: center; text-align: center; }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .meta-row .meta-sep {
+    color: var(--text-soft);
+    opacity: 0.4;
+  }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    color: var(--text-dim);
+    background: var(--bg-1);
+  }
+  .badge.acad {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  h1 {
+    font-size: clamp(28px, 4.2vw, 40px);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text);
+    max-width: 880px;
+    letter-spacing: -0.02em;
+  }
+  h1 .accent { color: var(--accent); font-weight: 500; }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 720px;
+    line-height: 1.65;
+  }
+
+  /* ==== SECTIONS ==== */
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+
+  .section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 32px; flex-wrap: wrap; }
+  .section-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-soft); letter-spacing: 0.08em; }
+  .section-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-soft); margin: 0; }
+  h2 { font-size: clamp(22px, 2.8vw, 30px); font-weight: 500; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; }
+
+  /* ==== INTRO ==== */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .stat-card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    transition: border-color 180ms ease;
+  }
+  .stat-card:hover { border-color: var(--border-strong); }
+  .stat-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .stat-card .value {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .stat-card .desc { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  /* ==== MAPA MENTAL ==== */
+  .mindmap-wrapper {
+    position: relative;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 40px 24px;
+    margin-top: 24px;
+    overflow: hidden;
+  }
+
+  /* SVG das conexões (fundo) */
+  .mindmap-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mindmap-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 24px;
+    min-height: 620px;
+  }
+
+  /* Nó central */
+  .center-node {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    justify-self: center;
+    background: var(--bg-1);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 28px 32px;
+    text-align: center;
+    width: 240px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .center-node .icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-soft);
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .center-node .name {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .center-node .tag {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* Cards de ramificação */
+  .branch-node {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 110px;
+    justify-content: center;
+  }
+  .branch-node:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
+  }
+  .branch-node.is-open {
+    border-color: var(--accent);
+    background: var(--bg-1);
+    box-shadow: var(--shadow);
+  }
+
+  .branch-node .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .branch-node .title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .branch-node .preview {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.45;
+  }
+  .branch-node .open-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-soft);
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+  .branch-node:hover .open-hint { color: var(--accent); }
+  .branch-node.is-open .open-hint { color: var(--accent); }
+
+  /* Posicionamento dos 6 cards (3x3 com centro ocupado) */
+  .branch-node[data-pos="tl"] { grid-column: 1; grid-row: 1; }
+  .branch-node[data-pos="tm"] { grid-column: 2; grid-row: 1; }
+  .branch-node[data-pos="tr"] { grid-column: 3; grid-row: 1; }
+  .branch-node[data-pos="bl"] { grid-column: 1; grid-row: 3; }
+  .branch-node[data-pos="bm"] { grid-column: 2; grid-row: 3; }
+  .branch-node[data-pos="br"] { grid-column: 3; grid-row: 3; }
+
+  /* ==== DETALHES EXPANDIDOS ==== */
+  .details-panel {
+    /* Container neutro — segura os painéis quando estão "fechados" */
+    display: contents;
+  }
+  .detail-card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 32px 36px;
+    display: none;
+    animation: slideIn 240ms ease;
+    grid-column: 1 / -1;
+  }
+  .detail-card.visible { display: block; }
+  .detail-card.visible { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .detail-card .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-card .detail-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .detail-card .detail-close {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-dim);
+    width: 28px; height: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 150ms;
+  }
+  .detail-card .detail-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .detail-content h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  .detail-content h4:first-child { margin-top: 0; }
+
+  .detail-content p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+  .detail-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .detail-content ul li {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.55;
+    padding-left: 18px;
+    position: relative;
+  }
+  .detail-content ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .detail-content strong { color: var(--text); font-weight: 500; }
+
+  /* Grid de unidades (item 1) */
+  .units-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .unit-pill {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .unit-pill .city {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+    letter-spacing: -0.005em;
+  }
+  .unit-pill .role { font-size: 12px; color: var(--text-dim); }
+
+  /* ==== FLUXO DE PROCESSOS ==== */
+  .flow-wrapper {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 24px;
+    margin-top: 24px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-width: max-content;
+  }
+  .flow-step {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 18px;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+  }
+  .flow-step .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .flow-step .label {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    color: var(--text-soft);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ==== FOOTER ==== */
+  footer {
+    padding: 32px 0 40px;
+    background: var(--bg-1);
+    border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .footer-col { display: flex; flex-direction: column; gap: 6px; }
+  .footer-col + .footer-col {
+    padding-left: 32px;
+    border-left: 1px solid var(--border);
+  }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-soft);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+  .footer-meta strong { color: var(--text-dim); font-weight: 500; }
+  .footer-credits-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .footer-credits {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-wrap: wrap;
+    gap: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--text-dim);
+  }
+  .footer-credits li { position: relative; padding-right: 14px; }
+  .footer-credits li:not(:last-child)::after {
+    content: "·"; position: absolute; right: 0; color: var(--text-soft);
+  }
+
+  /* ==== RESPONSIVE ==== */
+  @media (max-width: 1100px) {
+    .intro-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .mindmap-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      min-height: auto;
+      gap: 12px;
+    }
+    .center-node { grid-column: 1; grid-row: auto; width: 100%; max-width: 320px; }
+    .branch-node[data-pos] { grid-column: 1; grid-row: auto; }
+    .branch-node { min-height: auto; }
+    .mindmap-wrapper { padding: 24px 18px; }
+    .mindmap-svg { display: none; }
+    .flow-step { min-width: 120px; }
+  }
+
+  @media (max-width: 768px) {
+    h1 { font-size: 26px; }
+    h2 { font-size: 22px; }
+    section { padding: 48px 0; }
+    header { padding: 40px 0 32px; }
+    .container { padding: 0 20px; }
+    .details-panel { padding: 0 20px; }
+    .detail-card { padding: 24px 20px; }
+    .detail-card .detail-title { font-size: 18px; }
+    .units-grid { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; min-width: auto; }
+    .flow-arrow { transform: rotate(90deg); min-width: auto; min-height: 24px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 20px; }
+    .footer-col + .footer-col { padding-left: 0; border-left: none; padding-top: 16px; border-top: 1px solid var(--border); }
+  }
+
+  @media (max-width: 480px) {
+    .intro-grid { grid-template-columns: 1fr; }
+    .stat-card { padding: 14px 16px; }
+    .stat-card .value { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <h1>TransLogística <span class="accent">Brasil S.A.</span></h1>
+      <p class="subtitle">Mapa mental interativo do estudo de caso. Explore as seis dimensões da empresa — unidades, estratégia, infraestrutura, sistemas, processos e gargalos — para compreender o cenário completo em poucos minutos.</p>
+    </div>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <p class="section-title">Visão Geral</p>
+    </div>
+    <h2>A Empresa em Números</h2>
+    <div class="intro-grid">
+      <div class="stat-card">
+        <div class="label">Tempo de Atuação</div>
+        <div class="value">22 anos</div>
+        <div class="desc">no mercado brasileiro</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Clientes Atendidos</div>
+        <div class="value">1.800</div>
+        <div class="desc">em todo o território nacional</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Pedidos por Dia</div>
+        <div class="value">2.200</div>
+        <div class="desc">processados e distribuídos</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Movimentação Mensal</div>
+        <div class="value">15.000 t</div>
+        <div class="desc">toneladas de carga</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mindmap">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <p class="section-title">Mapa Mental</p>
+    </div>
+    <h2>Seis Dimensões do Estudo de Caso</h2>
+
+    <div class="mindmap-wrapper">
+      <svg class="mindmap-svg" viewBox="0 0 1200 640" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.0"/>
+            <stop offset="50%" stop-color="#fbbf24" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.0"/>
+          </linearGradient>
+        </defs>
+        <!-- Linhas do centro para os 6 cards -->
+        <g stroke="#fbbf24" stroke-width="1" stroke-opacity="0.25" fill="none" stroke-linecap="round">
+          <path d="M 600 320 L 200 110" id="ln-tl"/>
+          <path d="M 600 320 L 600 110" id="ln-tm"/>
+          <path d="M 600 320 L 1000 110" id="ln-tr"/>
+          <path d="M 600 320 L 200 530" id="ln-bl"/>
+          <path d="M 600 320 L 600 530" id="ln-bm"/>
+          <path d="M 600 320 L 1000 530" id="ln-br"/>
+        </g>
+        <!-- Pontos nas extremidades -->
+        <g fill="#fbbf24" fill-opacity="0.5">
+          <circle cx="200" cy="110" r="2.5"/>
+          <circle cx="600" cy="110" r="2.5"/>
+          <circle cx="1000" cy="110" r="2.5"/>
+          <circle cx="200" cy="530" r="2.5"/>
+          <circle cx="600" cy="530" r="2.5"/>
+          <circle cx="1000" cy="530" r="2.5"/>
+        </g>
+      </svg>
+
+      <div class="mindmap-grid">
+        <div class="branch-node" data-pos="tl" data-target="empresa">
+          <div class="num">01 / EMPRESA</div>
+          <div class="title">Empresa e Unidades</div>
+          <div class="preview">Matriz em SP e 3 filiais regionais.</div>
+          <div class="open-hint">Expandir</div>
+        </div>
+
+        <div class="branch-node" data-pos="tm" data-target="estrategia">
+          <div class="num">02 / ESTRATÉGIA</div>
+          <div class="title">Missão, Visão e Valores</div>
+          <div class="preview">Propósito e metas da companhia até 2030.</div>
+          <div class="open-hint">Expandir</div>
+        </div>
+
+        <div class="branch-node" data-pos="tr" data-target="ti">
+          <div class="num">03 / INFRA</div>
+          <div class="title">Infraestrutura de TI</div>
+          <div class="preview">Data center, servidores, VPN e links.</div>
+          <div class="open-hint">Expandir</div>
+        </div>
+
+        <div class="center-node">
+          <div class="icon">ESTUDO DE CASO</div>
+          <div class="name">TransLogística<br>Brasil S.A.</div>
+          <div class="tag">Clique nos tópicos</div>
+        </div>
+
+        <div class="branch-node" data-pos="bl" data-target="sistemas">
+          <div class="num">04 / SISTEMAS</div>
+          <div class="title">Sistemas Aplicados</div>
+          <div class="preview">ERP, WMS e SFA em uso na operação.</div>
+          <div class="open-hint">Expandir</div>
+        </div>
+
+        <div class="branch-node" data-pos="bm" data-target="processos">
+          <div class="num">05 / PROCESSOS</div>
+          <div class="title">Fluxo Operacional</div>
+          <div class="preview">Pedido → reserva → entrega → financeiro.</div>
+          <div class="open-hint">Expandir</div>
+        </div>
+
+        <div class="branch-node" data-pos="br" data-target="problemas">
+          <div class="num">06 / GARGALOS</div>
+          <div class="title">Problemas Identificados</div>
+          <div class="preview">Sistemas isolados, processos manuais.</div>
+          <div class="open-hint">Expandir</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-panel">
+    <!-- 1. EMPRESA -->
+    <div class="detail-card" id="detail-empresa">
+      <div class="detail-header">
+        <div class="detail-title">01 · Empresa e Unidades</div>
+        <button class="detail-close" data-close="empresa" aria-label="Fechar">×</button>
+      </div>
+      <div class="detail-content">
+        <h4>Estrutura Organizacional</h4>
+        <p>A TransLogística Brasil S.A. opera com uma estrutura distribuída em quatro unidades estratégicas, cobrindo as principais regiões do país. A matriz centraliza a gestão administrativa e financeira, enquanto as filiais garantem atendimento regional.</p>
+        <div class="units-grid">
+          <div class="unit-pill">
+            <div class="city">São Paulo (SP)</div>
+            <div class="role">Matriz · CD principal · gestão corporativa, financeiro, compras, TI e atendimento ao Sudeste</div>
+          </div>
+          <div class="unit-pill">
+            <div class="city">Recife (PE)</div>
+            <div class="role">Filial regional · atendimento ao Nordeste</div>
+          </div>
+          <div class="unit-pill">
+            <div class="city">Uberlândia (MG)</div>
+            <div class="role">Centro de distribuição · Centro-Oeste e interior do Sudeste</div>
+          </div>
+          <div class="unit-pill">
+            <div class="city">Joinville (SC)</div>
+            <div class="role">Filial regional · atendimento à região Sul</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ESTRATÉGIA -->
+    <div class="detail-card" id="detail-estrategia">
+      <div class="detail-header">
+        <div class="detail-title">02 · Missão, Visão e Valores</div>
+        <button class="detail-close" data-close="estrategia" aria-label="Fechar">×</button>
+      </div>
+      <div class="detail-content">
+        <h4>Missão</h4>
+        <p>Oferecer transporte, armazenagem e gestão logística com excelência, garantindo cargas íntegras, entregas pontuais e geração de valor para clientes, colaboradores e parceiros.</p>
+
+        <h4>Visão</h4>
+        <p>Até 2030, estar entre as <strong>3 maiores e mais eficientes operadoras logísticas integradas do Brasil</strong>.</p>
+
+        <h4>Valores</h4>
+        <ul>
+          <li>Compromisso com o cliente</li>
+          <li>Tradição e confiabilidade</li>
+          <li>Valorização humana</li>
+          <li>Resiliência operacional</li>
+          <li>Ética e transparência</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3. INFRA TI -->
+    <div class="detail-card" id="detail-ti">
+      <div class="detail-header">
+        <div class="detail-title">03 · Infraestrutura de TI</div>
+        <button class="detail-close" data-close="ti" aria-label="Fechar">×</button>
+      </div>
+      <div class="detail-content">
+        <h4>Componentes</h4>
+        <ul>
+          <li><strong>Data center próprio</strong> em São Paulo (matriz)</li>
+          <li><strong>3 servidores x86</strong> (processamento centralizado)</li>
+          <li><strong>SAN</strong> (Storage Area Network) para armazenamento</li>
+          <li><strong>VPN</strong> conectando matriz e filiais de forma segura</li>
+        </ul>
+        <h4>Links de Comunicação</h4>
+        <ul>
+          <li><strong>Matriz:</strong> 300 Mbps</li>
+          <li><strong>Filiais:</strong> 50 – 100 Mbps</li>
+        </ul>
+        <h4>Política de Backup</h4>
+        <ul>
+          <li><strong>Matriz:</strong> fitas LTO (Long Term)</li>
+          <li><strong>Filiais:</strong> HDs externos</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4. SISTEMAS -->
+    <div class="detail-card" id="detail-sistemas">
+      <div class="detail-header">
+        <div class="detail-title">04 · Sistemas Aplicados</div>
+        <button class="detail-close" data-close="sistemas" aria-label="Fechar">×</button>
+      </div>
+      <div class="detail-content">
+        <h4>ERP — LogSys v4.2</h4>
+        <p>Sistema integrado de gestão utilizado em toda a empresa. Cobre contabilidade, faturamento, cadastro de clientes, contas a pagar e contas a receber.</p>
+
+        <h4>WMS (Warehouse Management System)</h4>
+        <p>Cada unidade opera um sistema de armazém diferente — característica que gera um dos principais gargalos do estudo de caso:</p>
+        <ul>
+          <li><strong>São Paulo:</strong> WMS-Corp</li>
+          <li><strong>Uberlândia:</strong> WMS-Corp</li>
+          <li><strong>Recife:</strong> LogStorage Pro</li>
+          <li><strong>Joinville:</strong> ArmazémAgil</li>
+        </ul>
+
+        <h4>SFA (Sales Force Automation)</h4>
+        <p>Aplicativo usado pelos <strong>45 representantes comerciais</strong> em campo. Funciona offline e sincroniza pedidos via FTP quando há conectividade.</p>
+      </div>
+    </div>
+
+    <!-- 5. PROCESSOS -->
+    <div class="detail-card" id="detail-processos">
+      <div class="detail-header">
+        <div class="detail-title">05 · Fluxo Operacional</div>
+        <button class="detail-close" data-close="processos" aria-label="Fechar">×</button>
+      </div>
+      <div class="detail-content">
+        <h4>Etapas do Pedido</h4>
+        <p>O ciclo completo de um pedido atravessa oito etapas integradas — desde o recebimento até a reconciliação financeira. Veja a representação visual na seção "Fluxo" abaixo.</p>
+        <ul>
+          <li><strong>Pedido:</strong> entrada da solicitação do cliente (via SFA, portal ou central)</li>
+          <li><strong>Reserva de estoque:</strong> bloqueio da mercadoria no WMS da unidade responsável</li>
+          <li><strong>Separação:</strong> picking físico no armazém</li>
+          <li><strong>Faturamento:</strong> geração da NF-e e CT-e no ERP</li>
+          <li><strong>Transporte:</strong> roteirização e despacho</li>
+          <li><strong>Devolução:</strong> tratamento de ocorrências e retornos</li>
+          <li><strong>Reconciliação financeira:</strong> baixas e conferência contábil</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6. PROBLEMAS -->
+    <div class="detail-card" id="detail-problemas">
+      <div class="detail-header">
+        <div class="detail-title">06 · Problemas e Gargalos</div>
+        <button class="detail-close" data-close="problemas" aria-label="Fechar">×</button>
+      </div>
+      <div class="detail-content">
+        <p>O estudo de caso identifica um conjunto de problemas estruturais que limitam a eficiência operacional e impedem o crescimento escalável da operação:</p>
+        <ul>
+          <li><strong>WMS não integrados ao ERP</strong> — cada unidade usa um sistema de armazém diferente, sem comunicação automática com o LogSys v4.2</li>
+          <li><strong>Processos manuais generalizados</strong> — uso intensivo de e-mails, planilhas, PDFs e documentos físicos para troca de informações</li>
+          <li><strong>Estoque defasado no SFA</strong> — representantes comerciais não enxergam o saldo real em tempo real, gerando pedidos inválidos</li>
+          <li><strong>Conflitos de reserva</strong> — risco de dois pedidos reservarem a mesma mercadoria antes da separação</li>
+          <li><strong>Lentidão do ERP</strong> em picos de demanda (Black Friday, fechamento de mês)</li>
+          <li><strong>Devoluções manuais</strong> — exigem conferência física e lançamentos contábeis um a um</li>
+          <li><strong>Consolidação lenta</strong> — o fechamento dos dados das 4 unidades leva cerca de <strong>5 dias úteis</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fluxo">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <p class="section-title">Fluxo de Processos</p>
+    </div>
+    <h2>Ciclo do Pedido</h2>
+    <p style="color: var(--text-dim); max-width: 720px; margin-bottom: 24px; font-size: 14px;">
+      As oito etapas que um pedido atravessa dentro da TransLogística — da entrada à reconciliação financeira.
+    </p>
+
+    <div class="flow-wrapper">
+      <div class="flow">
+        <div class="flow-step"><div class="num">01</div><div class="label">Pedido</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">02</div><div class="label">Reserva de Estoque</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">03</div><div class="label">Separação</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">04</div><div class="label">Faturamento</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">05</div><div class="label">NF-e / CT-e</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">06</div><div class="label">Transporte</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">07</div><div class="label">Devolução</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">08</div><div class="label">Reconciliação</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-meta">
+          <strong>Atividade:</strong> Estudo de Caso — TransLogística Brasil S.A.
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-credits-label">Desenvolvido por</div>
+        <ul class="footer-credits">
+          <li>Roberivan Santos</li>
+          <li>Leonardo Mello</li>
+          <li>Vinícius Baron</li>
+          <li>Victor Hugo</li>
+          <li>Cristiano Silva</li>
+          <li>Kevin <span style="color: var(--text-soft); font-size: 10px;">(Xuewei Zhan)</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nodes = document.querySelectorAll('.branch-node');
+  const details = document.querySelectorAll('.detail-card');
+  const closes = document.querySelectorAll('[data-close]');
+
+  // Guarda o local original de cada painel
+  const detailOriginalParent = new Map();
+  const detailOriginalNext = new Map();
+  details.forEach(d => {
+    detailOriginalParent.set(d.id, d.parentNode);
+    detailOriginalNext.set(d.id, d.nextSibling);
+  });
+
+  function closeAll() {
+    details.forEach(d => {
+      d.classList.remove('visible');
+      // Volta pro lugar original
+      const parent = detailOriginalParent.get(d.id);
+      const next = detailOriginalNext.get(d.id);
+      if (parent && d.parentNode === parent) return;
+      if (parent) {
+        if (next && next.parentNode === parent) parent.insertBefore(d, next);
+        else parent.appendChild(d);
+      }
+    });
+    nodes.forEach(n => n.classList.remove('is-open'));
+  }
+
+  function openDetail(id) {
+    closeAll();
+    if (!id) return;
+
+    const node = document.querySelector(`.branch-node[data-target="${id}"]`);
+    const detail = document.getElementById('detail-' + id);
+    if (!node || !detail) return;
+
+    // Move o painel pra logo após o card clicado
+    node.parentNode.insertBefore(detail, node.nextSibling);
+
+    // Mostra
+    detail.classList.add('visible');
+    node.classList.add('is-open');
+
+    // Scroll suave até o painel
+    setTimeout(() => {
+      const top = detail.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }, 80);
+  }
+
+  nodes.forEach(node => {
+    node.addEventListener('click', () => {
+      const id = node.dataset.target;
+      const wasOpen = node.classList.contains('is-open');
+      openDetail(wasOpen ? null : id);
+    });
+  });
+
+  closes.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDetail(null);
+    });
+  });
+</script>
+</body>
+</html>
